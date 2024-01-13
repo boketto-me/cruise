@@ -1,6 +1,5 @@
 package org.boketto.cruise_server.network;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
@@ -15,12 +14,10 @@ public class ServerInboundHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf in = (ByteBuf) msg;
         try {
-            while (in.isReadable()) {
-                System.out.print((char) in.readByte());
-                System.out.flush();
-            }
+            //解码器已经做了类型转换，这里直接强转就可以了。
+            //参考：https://blog.csdn.net/taxi1993/article/details/103140523
+            System.out.println(String.valueOf(msg));
         } finally {
             ReferenceCountUtil.release(msg);
         }
