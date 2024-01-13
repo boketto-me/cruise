@@ -1,9 +1,8 @@
-package org.boketto.cruise_server;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.boketto.cruise_server.network.ServerInboundHandler;
 
 //参考：https://netty.io/wiki/user-guide-for-4.x.htmlgit
 public class TestServer {
@@ -16,7 +15,7 @@ public class TestServer {
                     .handler(new ChannelInitializer() {
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
-                            channel.pipeline().addLast(new NettyHandler());
+                            channel.pipeline().addLast(new ServerInboundHandler());
                         }
 
                     });
