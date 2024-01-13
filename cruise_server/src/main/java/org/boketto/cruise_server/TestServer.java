@@ -1,15 +1,11 @@
 package org.boketto.cruise_server;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import java.net.InetSocketAddress;
-
+//参考：https://netty.io/wiki/user-guide-for-4.x.htmlgit
 public class TestServer {
 
     public static void main(String[] args) throws InterruptedException {
@@ -17,7 +13,6 @@ public class TestServer {
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class)
-                    .remoteAddress(new InetSocketAddress("127.0.0.1", 9527))
                     .handler(new ChannelInitializer() {
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
@@ -25,7 +20,7 @@ public class TestServer {
                         }
 
                     });
-            ChannelFuture channelFuture = bootstrap.connect().sync();
+            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 9527).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (Exception exception) {
 
