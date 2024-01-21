@@ -13,13 +13,13 @@ public class InboundMessage {
 
     private String messageId;
 
-    private Integer magicNumber;
+    private Short magicNumber;
 
-    private Integer messageType;
+    private Short messageType;
 
     private Integer contentLength;
 
-    private Integer protocolVersion;
+    private Short protocolVersion;
 
     private byte[] messageBody;
 
@@ -28,12 +28,12 @@ public class InboundMessage {
     public InboundMessage decodeMessage(byte[] bytes) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
-        this.magicNumber = dataInputStream.readInt();
-        this.protocolVersion = dataInputStream.readInt();
+        this.magicNumber = dataInputStream.readShort();
+        this.protocolVersion = dataInputStream.readShort();
         byte[] temp1 = new byte[32];
         dataInputStream.read(temp1, 0, 32);
         this.messageId = new String(temp1, "UTF-8");
-        this.messageType = dataInputStream.readInt();
+        this.messageType = dataInputStream.readShort();
         this.contentLength = dataInputStream.readInt();
         byte[] temp2 = new byte[68];
         dataInputStream.read(temp2, 0, 68);

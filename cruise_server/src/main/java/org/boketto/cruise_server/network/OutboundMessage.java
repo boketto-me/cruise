@@ -17,13 +17,13 @@ public class OutboundMessage {
 
     private String messageId;
 
-    private Integer magicNumber;
+    private Short magicNumber;
 
-    private Integer messageType;
+    private Short messageType;
 
     private Integer contentLength;
 
-    private Integer protocolVersion;
+    private Short protocolVersion;
 
     private byte[] messageBody;
 
@@ -37,11 +37,11 @@ public class OutboundMessage {
         this.messageDigest = "";
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
-        dataOutputStream.writeInt(magicNumber);
-        dataOutputStream.writeInt(protocolVersion);
+        dataOutputStream.writeShort(magicNumber);
+        dataOutputStream.writeShort(protocolVersion);
         dataOutputStream.write(messageId.getBytes(Charset.defaultCharset()));
-        dataOutputStream.writeInt(0);
-        dataOutputStream.writeInt(2 + 2 + 32 + 2 + 2 + 68 + 32);
+        dataOutputStream.writeShort(0);
+        dataOutputStream.writeInt(2 + 2 + 32 + 2 + 4 + 68 + 32);
         dataOutputStream.write(messageBody);
         dataOutputStream.write(new byte[32]);
         return byteArrayOutputStream.toByteArray();
