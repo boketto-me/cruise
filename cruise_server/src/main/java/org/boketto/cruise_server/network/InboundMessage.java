@@ -3,8 +3,6 @@ package org.boketto.cruise_server.network;
 import lombok.Data;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.UUID;
 
 /**
  * 自定义二进制通讯协议，参考了如下方案，并在此基础上进行了适当调整：
@@ -27,19 +25,22 @@ public class InboundMessage {
 
     private String messageDigest;
 
-    public InboundMessage decodeMessage() throws IOException {
-        byte[] bytes = new byte[10000];
+    public InboundMessage decodeMessage(byte[] bytes) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
         this.magicNumber = dataInputStream.readInt();
         this.protocolVersion = dataInputStream.readInt();
-        byte[] temp = new byte[32];
-        dataInputStream.readNBytes(temp, 4, 32);
-        this.messageId = new String(temp, Charset.defaultCharset());
+        byte[] temp1 = new byte[32];
+        dataInputStream.read(temp1, 0, 32);
+        this.messageId = new String(temp1, "UTF-8");
         this.messageType = dataInputStream.readInt();
         this.contentLength = dataInputStream.readInt();
-        dataInputStream.readNBytes(messageBody, 2+2+32+2+2, 68);
-        dataInputStream.readNBytes(new byte[32], 2+2+32+2+2+68, 32);
+        byte[] temp2 = new byte[68];
+        dataInputStream.read(temp2, 0, 68);
+        this.messageBody = temp2;
+        byte[] temp3 = new byte[32];
+        dataInputStream.read(temp3, 0, 32);
+        this.messageDigest = new String(temp3, "UTF-8");
         return this;
     }
 

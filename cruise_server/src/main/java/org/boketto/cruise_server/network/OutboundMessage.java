@@ -30,7 +30,6 @@ public class OutboundMessage {
     private String messageDigest;
 
     public byte[] encodeMessage() throws IOException {
-        byte[] bytes = new byte[10000];
         this.messageId = UUID.randomUUID().toString().replaceAll("-", "");
         this.magicNumber = 9527;
         this.protocolVersion = 1;
@@ -41,7 +40,7 @@ public class OutboundMessage {
         dataOutputStream.writeInt(magicNumber);
         dataOutputStream.writeInt(protocolVersion);
         dataOutputStream.write(messageId.getBytes(Charset.defaultCharset()));
-        dataOutputStream.writeInt(messageType);
+        dataOutputStream.writeInt(0);
         dataOutputStream.writeInt(2 + 2 + 32 + 2 + 2 + 68 + 32);
         dataOutputStream.write(messageBody);
         dataOutputStream.write(new byte[32]);
