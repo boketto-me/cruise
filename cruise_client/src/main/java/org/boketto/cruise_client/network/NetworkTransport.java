@@ -1,4 +1,4 @@
-package org.boketto.cruise_server.network;
+package org.boketto.cruise_client.network;
 
 public interface NetworkTransport {
 

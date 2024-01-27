@@ -1,4 +1,4 @@
-package org.boketto.cruise_server.network;
+package org.boketto.cruise_client.network;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

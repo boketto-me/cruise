@@ -1,6 +1,6 @@
-package org.boketto.cruise_server;
+package org.boketto.cruise_client;
 
-import org.boketto.cruise_server.network.NettyTransport;
+import org.boketto.cruise_client.network.NettyTransport;
 
 public class Application {
 

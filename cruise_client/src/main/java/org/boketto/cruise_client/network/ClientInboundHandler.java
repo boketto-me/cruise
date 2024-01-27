@@ -1,11 +1,11 @@
-package org.boketto.cruise_server.network;
+package org.boketto.cruise_client.network;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
 //参考：https://netty.io/wiki/user-guide-for-4.x.html
-public class ServerInboundHandler extends ChannelInboundHandlerAdapter {
+public class ClientInboundHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

@@ -1,10 +1,10 @@
-package org.boketto.cruise_server.network;
+package org.boketto.cruise_client.network;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-public class ServerChannelInitializer extends ChannelInitializer<Channel> {
+public class ClientChannelInitializer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel channel) {
         //解码器是一种特殊的入站处理器，必须与客户端的编码器类型一致
@@ -13,7 +13,8 @@ public class ServerChannelInitializer extends ChannelInitializer<Channel> {
         LengthFieldBasedFrameDecoder lengthFieldBasedFrameDecoder = new LengthFieldBasedFrameDecoder(5 * 1024 * 1024, 0, 4);
         channel.pipeline().addLast(lengthFieldBasedFrameDecoder);
         channel.pipeline().addLast(new InboundMessageDecoder());
-        channel.pipeline().addLast(new ServerInboundHandler());
+        channel.pipeline().addLast(new ClientInboundHandler());
+        channel.pipeline().addLast(new OutboundMessageEncoder());
     }
 
 }
