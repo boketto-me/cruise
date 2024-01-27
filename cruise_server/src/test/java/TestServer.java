@@ -2,8 +2,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import org.boketto.cruise_server.network.OutboundMessage;
 import org.boketto.cruise_server.network.OutboundMessageEncoder;
 
