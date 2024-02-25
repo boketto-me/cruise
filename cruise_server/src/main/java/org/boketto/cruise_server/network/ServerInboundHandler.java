@@ -1,25 +1,33 @@
 package org.boketto.cruise_server.network;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.ReferenceCountUtil;
+import io.netty.channel.SimpleChannelInboundHandler;
+
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ConcurrentHashMap;
 
 //参考：https://netty.io/wiki/user-guide-for-4.x.html
-public class ServerInboundHandler extends ChannelInboundHandlerAdapter {
+public class ServerInboundHandler extends SimpleChannelInboundHandler<InboundMessage> {
+
+    private ConcurrentHashMap<String, Channel> activeChannelKV = new ConcurrentHashMap<>();
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("客户端连上了服务器");
+        String channelId = ctx.channel().id().asLongText();
+        activeChannelKV.put(channelId, ctx.channel());
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        try {
-            //解码器已经做了类型转换，这里直接强转就可以了。
-            //参考：https://blog.csdn.net/taxi1993/article/details/103140523
-            System.out.println(String.valueOf(msg));
-        } finally {
-            ReferenceCountUtil.release(msg);
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        activeChannelKV.remove(ctx.channel().id().asLongText());
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, InboundMessage inboundMessage) throws Exception {
+        Short messageType = inboundMessage.getMessageType();
+        if (messageType.intValue() == 0) {
+            ctx.channel().writeAndFlush(new OutboundMessage((short) 0, "PONG".getBytes(StandardCharsets.UTF_8)));
         }
     }
 

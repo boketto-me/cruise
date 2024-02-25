@@ -14,6 +14,7 @@ public class ServerChannelInitializer extends ChannelInitializer<Channel> {
         channel.pipeline().addLast(lengthFieldBasedFrameDecoder);
         channel.pipeline().addLast(new InboundMessageDecoder());
         channel.pipeline().addLast(new ServerInboundHandler());
+        channel.pipeline().addLast(new OutboundMessageEncoder());
     }
 
 }

@@ -19,6 +19,8 @@ public class InboundMessageDecoder extends ChannelInboundHandlerAdapter {
                     errorMessage = "Message Decode Error";
                     break;
                 }
+                //解码器（LengthFieldBasedFrameDecoder）已经做了类型转换，这里直接强转就可以了。
+                //参考：https://blog.csdn.net/taxi1993/article/details/103140523
                 ByteBuf byteBuf = (ByteBuf) object;
                 if (!(byteBuf.isReadable())) {
                     errorMessage = "Message Not Readable";
@@ -34,6 +36,7 @@ public class InboundMessageDecoder extends ChannelInboundHandlerAdapter {
                 if (StringUtils.isNotBlank(errorMessage)) {
                     System.out.println(errorMessage);
                 } else {
+                    //消息检查通过之后，再手动触发给下一个入站处理器继续处理
                     System.out.println(inboundMessage.toString());
                     channelHandlerContext.fireChannelRead(inboundMessage);
                 }

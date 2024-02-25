@@ -26,7 +26,7 @@ public class TestServer {
             channelFuture.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                    channelFuture.channel().writeAndFlush(new OutboundMessage());
+                    //channelFuture.channel().writeAndFlush(new OutboundMessage());
                 }
             });
             channelFuture.channel().closeFuture().sync();
