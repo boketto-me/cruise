@@ -6,8 +6,7 @@ public class TestEncode {
     public static void main(String[] args) throws Exception {
         OutboundMessage outboundMessage = new OutboundMessage();
         byte[] encodeBytes = outboundMessage.encodeMessage();
-        InboundMessage inboundMessage = new InboundMessage();
-        System.out.println(inboundMessage.decodeMessage(encodeBytes).getMessageId());
+        System.out.println(InboundMessage.decodeMessage(encodeBytes).getMessageId());
     }
 
 }

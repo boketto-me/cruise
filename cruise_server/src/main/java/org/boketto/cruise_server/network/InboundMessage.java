@@ -25,23 +25,24 @@ public class InboundMessage {
 
     private String messageDigest;
 
-    public InboundMessage decodeMessage(byte[] bytes) throws IOException {
+    public static InboundMessage decodeMessage(byte[] bytes) throws IOException {
+        InboundMessage inboundMessage = new InboundMessage();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
-        this.contentLength = dataInputStream.readInt();
-        this.magicNumber = dataInputStream.readShort();
-        this.protocolVersion = dataInputStream.readShort();
+        inboundMessage.contentLength = dataInputStream.readInt();
+        inboundMessage.magicNumber = dataInputStream.readShort();
+        inboundMessage.protocolVersion = dataInputStream.readShort();
         byte[] temp1 = new byte[32];
         dataInputStream.read(temp1, 0, 32);
-        this.messageId = new String(temp1, "UTF-8");
-        this.messageType = dataInputStream.readShort();
+        inboundMessage.messageId = new String(temp1, "UTF-8");
+        inboundMessage.messageType = dataInputStream.readShort();
         byte[] temp2 = new byte[68];
         dataInputStream.read(temp2, 0, 68);
-        this.messageBody = temp2;
+        inboundMessage.messageBody = temp2;
         byte[] temp3 = new byte[32];
         dataInputStream.read(temp3, 0, 32);
-        this.messageDigest = new String(temp3, "UTF-8");
-        return this;
+        inboundMessage.messageDigest = new String(temp3, "UTF-8");
+        return inboundMessage;
     }
 
 }
