@@ -11,6 +11,7 @@ public class InboundMessageDecoder extends SimpleChannelInboundHandler<ByteBuf> 
         //具体可以看LengthFieldBasedFrameDecoder解码器类的decode方法实现
         if (byteBuf.isReadable()) {
             byte[] bytes = new byte[byteBuf.readableBytes()];
+            byteBuf.readBytes(bytes);
             InboundMessage inboundMessage = new InboundMessage().decodeMessage(bytes);
             System.out.println(inboundMessage.getMagicNumber());
             System.out.println(inboundMessage.getMessageId());
